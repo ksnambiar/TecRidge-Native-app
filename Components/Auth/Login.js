@@ -6,7 +6,9 @@ import {Actions} from "react-native-router-flux";
 import {Button,Input} from "react-native-elements";
 import {auth} from "../../utils/firebase";
 import Icon from "react-native-vector-icons/FontAwesome";
-export default class Login extends Component {
+import {connect} from "react-redux"
+import {loginUser} from "../../Store/actions/authAction"
+class Login extends Component {
     constructor(props) {
         super(props)
     
@@ -35,15 +37,7 @@ export default class Login extends Component {
     submitHandler(){
         // if()
         console.log(this.state.email,this.state.password)
-        auth.signInWithEmailAndPassword(this.state.email,this.state.password).then(obj=>{
-            console.log("logged in broo")
-            console.log(obj)
-            Actions.postAuth({uid:obj.user.uid});
-        })
-        .catch(err=>{
-            console.log(err,"some error");
-            this.setState({email:"",password:""});
-        })
+        this.props.loginUser(this.state.email,this.state.password,Actions)
     }
     registerRouting(){
         console.log("called now ")
@@ -79,26 +73,4 @@ export default class Login extends Component {
     }
 }
 
-
-// const styles= StyleSheet.create({
-//     containerInfo:{
-//         marginHorizontal: 10,
-//         backgroundColor: "#00C8FF",
-//         alignItems:"center",
-//         justifyContent: "center",
-//         paddingVertical: 10,
-//         borderColor: "#00C8FF",
-//         borderRadius: 20,
-//         borderWidth: 1,
-//     },
-//     containerSuccess:{
-//         marginHorizontal: 10,
-//         backgroundColor: "#0B6623",
-//         alignItems:"center",
-//         justifyContent: "center",
-//         paddingVertical: 10,
-//         borderColor: "#0B6623",
-//         borderRadius: 20,
-//         borderWidth: 1,
-//     }
-// })
+export default connect(null,{loginUser})(Login);
