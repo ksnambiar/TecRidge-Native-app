@@ -4,6 +4,7 @@ import {connect} from "react-redux"
 import PropTypes from "prop-types"
 import {getCurrentProfile} from "../../Store/actions/profileAction"
 import {Card,Avatar, Button} from "react-native-elements"
+import { Actions } from 'react-native-router-flux';
 // import console = require('console');
 class Dashboard extends Component {
     constructor(props) {
@@ -13,12 +14,17 @@ class Dashboard extends Component {
              profile:null,
              isLoading:false
         }
+        this.profileViewer=this.profileViewer.bind(this)
     }
     componentDidMount(){
         this.setState({isLoading:true})
         console.log(this.props.uid);
         const {uid} = this.props;
         this.props.getCurrentProfile(uid)        
+    }
+    profileViewer(){
+    //send to profile page
+    Actions.profile({uid:this.props.uid});
     }
     render() {
         const {profile,loading} = this.props.profile;
@@ -37,7 +43,7 @@ class Dashboard extends Component {
                 />
                 <View>
                 <Text>{profile.fullName}</Text>
-                <Button title="View Profile" type="outline"/>
+                <Button title="View Profile" type="outline" onPress={this.profileViewer}/>
                 </View>
                 </View>
                 </Card>

@@ -1,11 +1,11 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import {Router,Scene,Stack} from "react-native-router-flux"
-
 //components imported
 import Login from "./Components/Auth/Login";
 import Register from "./Components/Auth/Register";
 import Dashboard from "./Components/Dashboard/Dashboard";
+import Profile from "./Components/Profile/Profile"
 const Navigation = () => {
     return (
         <Router>
@@ -16,6 +16,7 @@ const Navigation = () => {
             </Scene>
             <Scene key='postAuth'>
                 <Scene key='dashboard' title="Dashboard" component={Dashboard} initial/>
+                <Scene key='profile' title="Profile" component={Profile} />
             </Scene>
             </Stack>
         </Router>
