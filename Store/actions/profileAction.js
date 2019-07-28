@@ -3,9 +3,8 @@ import {GET_GUIDE_PROFILE,GET_GUIDE_PROFILES,CLEAR_CURRENT_GUIDE_PROFILE} from '
 import AsyncStorage from "@react-native-community/async-storage"
 import {dataBase} from "../../utils/firebase";
 //get current profile
-export const getCurrentProfile = ()=>dispatch=>{
+export const getCurrentProfile = (uid)=>dispatch=>{
     dispatch(setProfileLoading)
-    let uid =getItem('uid')
     dataBase.ref("profiles/"+uid).once("value").then(snapshot=>{
         dispatch({
             type:GET_PROFILE,

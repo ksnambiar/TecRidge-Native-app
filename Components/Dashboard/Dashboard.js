@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Text, View } from 'react-native'
-import {Card,Avatar} from "react-native-elements"
-import {dataBase} from "../../utils/firebase";
+import {connect} from "react-redux"
+import PropTypes from "prop-types"
+import {getCurrentProfile} from "../../Store/actions/profileAction"
+import {Card,Avatar, Button} from "react-native-elements"
 // import console = require('console');
-export default class Dashboard extends Component {
+class Dashboard extends Component {
     constructor(props) {
         super(props)
     
@@ -16,21 +18,33 @@ export default class Dashboard extends Component {
         this.setState({isLoading:true})
         console.log(this.props.uid);
         const {uid} = this.props;
-        dataBase.ref("profiles/"+uid).once("value").then(obj=>{
-            this.setState({profile:obj.val(),isLoading:false})
-        })
-        .catch(err=>{
-            console.log(err)
-        })
+        this.props.getCurrentProfile(uid)        
     }
     render() {
-        const {profile,isLoading} = this.state;
+        const {profile,loading} = this.props.profile;
         let view;
-        console.log(profile)
-        if(profile && isLoading){
-            view=<Card>
-                <Text>Loaduing</Text>
+        console.log(profile,loading)
+        if(profile && !loading){
+            view=<View>
+            <Card>
+                <View  style={{flexDirection:"row",justifyContent:"space-around"}}>
+                <Avatar 
+                rounded
+                source={{
+                    uri:`https://robohash.org/${profile.fullName}`
+                }}
+                size={55}
+                />
+                <View>
+                <Text>{profile.fullName}</Text>
+                <Button title="View Profile" type="outline"/>
+                </View>
+                </View>
                 </Card>
+                <Card>
+                    
+                </Card>
+                </View>
         }else{
             view=<Card>
                 <Text>Laoded</Text>
@@ -43,3 +57,8 @@ export default class Dashboard extends Component {
         )
     }
 }
+const mapStateToProps = state=>({
+    profile:state.profile
+})
+
+export default connect(mapStateToProps,{getCurrentProfile})(Dashboard);
