@@ -1,26 +1,49 @@
 import React, { Component } from 'react'
 import { Text, View ,TouchableOpacity,StyleSheet} from 'react-native'
 import Card from "../Common/Card"
-import Input from "../Common/Input"
 import CardSection from "../Common/CardSection"
-import Button from "../Common/Button"
 import {Actions} from "react-native-router-flux";
+import {Button,Input} from "react-native-elements";
+import {auth} from "../../utils/firebase";
+import Icon from "react-native-vector-icons/FontAwesome";
 export default class Login extends Component {
     constructor(props) {
         super(props)
     
         this.state = {
-             email:"",
-             password:""
+             email:"nambiar.sidharth00@gmail.com",
+             password:"sidrocks",
+             password2:""
         }
         this.dataChangeHandler = this.dataChangeHandler.bind(this)
+        this.submitHandler = this.submitHandler.bind(this)
+    }
+    componentWillMount(){
+        const user = auth.currentUser;
+        console.log(user)
+        if(user){
+            Actions.postAuth()
+        }
     }
     dataChangeHandler(name,text){
+        if(name==="password"){
+            this.setState({password:text})
+        }else{
         this.setState({[name]:text})
+        }
     }
     submitHandler(){
-        console.log("done submitting")
-        Actions.postAuth()
+        // if()
+        console.log(this.state.email,this.state.password)
+        auth.signInWithEmailAndPassword(this.state.email,this.state.password).then(obj=>{
+            console.log("logged in broo")
+            console.log(obj)
+            Actions.postAuth({uid:obj.user.uid});
+        })
+        .catch(err=>{
+            console.log(err,"some error");
+            this.setState({email:"",password:""});
+        })
     }
     registerRouting(){
         console.log("called now ")
@@ -33,17 +56,15 @@ export default class Login extends Component {
                     <Text>Login to Tecridge</Text>
                 </CardSection>
                <CardSection>
-               <Text>Email</Text>
-                   <Input value={this.state.email} name="email"  changeHandler={this.dataChangeHandler}/>
+               <Input placeholder="Enter your email" leftIcon={ <Icon name="envelope" color="black" size={24} />} value={this.state.email} onChangeText={(text)=>this.dataChangeHandler('email',text)} />
                 </CardSection>
                 <CardSection>
-               <Text>Password</Text>
-                   <Input value={this.state.password} name="password"  changeHandler={this.dataChangeHandler}/>
                 </CardSection>
                 <CardSection>
-                    <TouchableOpacity onPress={this.submitHandler} style={styles.containerInfo}>
-                        <Text>Login</Text>
-                    </TouchableOpacity>
+                <Input placeholder="Password please" leftIcon={ <Icon name="unlock" color="black" size={24} />} value={this.state.password} onChangeText={(text)=>this.dataChangeHandler('password',text)} />
+                </CardSection>
+                <CardSection>
+                    <Button  title="Login" type="solid" onPress={this.submitHandler} />
                 </CardSection>
                 <CardSection>
                  <View style={{justifyContent:"center",alignItems:"center"}}>
@@ -51,9 +72,7 @@ export default class Login extends Component {
                 </View>
                 </CardSection>
                 <CardSection>
-                    <TouchableOpacity onPress={this.registerRouting} style={styles.containerSuccess}>
-                        <Text>Register</Text>
-                    </TouchableOpacity>
+                    <Button title="Register" onPress={this.registerRouting} type="solid" />
                 </CardSection>
             </Card>
         )
@@ -61,25 +80,25 @@ export default class Login extends Component {
 }
 
 
-const styles= StyleSheet.create({
-    containerInfo:{
-        marginHorizontal: 10,
-        backgroundColor: "#00C8FF",
-        alignItems:"center",
-        justifyContent: "center",
-        paddingVertical: 10,
-        borderColor: "#00C8FF",
-        borderRadius: 20,
-        borderWidth: 1,
-    },
-    containerSuccess:{
-        marginHorizontal: 10,
-        backgroundColor: "#0B6623",
-        alignItems:"center",
-        justifyContent: "center",
-        paddingVertical: 10,
-        borderColor: "#0B6623",
-        borderRadius: 20,
-        borderWidth: 1,
-    }
-})
+// const styles= StyleSheet.create({
+//     containerInfo:{
+//         marginHorizontal: 10,
+//         backgroundColor: "#00C8FF",
+//         alignItems:"center",
+//         justifyContent: "center",
+//         paddingVertical: 10,
+//         borderColor: "#00C8FF",
+//         borderRadius: 20,
+//         borderWidth: 1,
+//     },
+//     containerSuccess:{
+//         marginHorizontal: 10,
+//         backgroundColor: "#0B6623",
+//         alignItems:"center",
+//         justifyContent: "center",
+//         paddingVertical: 10,
+//         borderColor: "#0B6623",
+//         borderRadius: 20,
+//         borderWidth: 1,
+//     }
+// })
