@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View ,ScrollView} from 'react-native'
 import {connect} from "react-redux"
 import PropTypes from "prop-types"
 import {getCurrentProfile} from "../../Store/actions/profileAction"
 import {Card,Avatar, Button} from "react-native-elements"
 import { Actions } from 'react-native-router-flux';
+import MenuDrawer from 'react-native-side-drawer'
+import Menu from "../SideMenu/Menu"
+import Experience from "./Experience"
+import Projects from "./Projects"
 // import console = require('console');
 class Dashboard extends Component {
     constructor(props) {
@@ -12,9 +16,11 @@ class Dashboard extends Component {
     
         this.state = {
              profile:null,
-             isLoading:false
+             isLoading:false,
+             open:false
         }
         this.profileViewer=this.profileViewer.bind(this)
+        this.toggleSide=this.toggleSide.bind(this)
     }
     componentDidMount(){
         this.setState({isLoading:true})
@@ -26,30 +32,23 @@ class Dashboard extends Component {
     //send to profile page
     Actions.profile({uid:this.props.uid});
     }
+    toggleSide(){
+        this.setState({open:!this.state.open})
+    }
     render() {
         const {profile,loading} = this.props.profile;
         let view;
+        let menu =null;
         console.log(profile,loading)
         if(profile && !loading){
+           menu=<Menu profile={profile}/>
             view=<View>
-            <Card>
-                <View  style={{flexDirection:"row",justifyContent:"space-around"}}>
-                <Avatar 
-                rounded
-                source={{
-                    uri:`https://robohash.org/${profile.fullName}`
-                }}
-                size={55}
-                />
-                <View>
-                <Text>{profile.fullName}</Text>
-                <Button title="View Profile" type="outline" onPress={this.profileViewer}/>
-                </View>
-                </View>
-                </Card>
-                <Card>
-                    
-                </Card>
+                {/* <Button title="Open" onPress={this.toggleSide} /> */}
+                <Text>Dashboard</Text>
+                <ScrollView>
+                <Experience profile={profile} />
+                <Projects profile={profile} />
+                </ScrollView>
                 </View>
         }else{
             view=<Card>
