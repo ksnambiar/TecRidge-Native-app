@@ -3,9 +3,10 @@ import { Text, View ,ScrollView} from 'react-native'
 import {connect} from "react-redux"
 import PropTypes from "prop-types"
 import {getCurrentProfile} from "../../Store/actions/profileAction"
-import {Card,Avatar, Button} from "react-native-elements"
+import {Card,Avatar, Button,ButtonGroup} from "react-native-elements"
 import { Actions } from 'react-native-router-flux';
 import MenuDrawer from 'react-native-side-drawer'
+import Icon from "react-native-vector-icons/FontAwesome"
 import Menu from "../SideMenu/Menu"
 import Experience from "./Experience"
 import Projects from "./Projects"
@@ -17,10 +18,12 @@ class Dashboard extends Component {
         this.state = {
              profile:null,
              isLoading:false,
-             open:false
+             open:false,
+             index:0
         }
         this.profileViewer=this.profileViewer.bind(this)
         this.toggleSide=this.toggleSide.bind(this)
+        this.topHandle=this.topHandle.bind(this)
     }
     componentDidMount(){
         this.setState({isLoading:true})
@@ -34,6 +37,9 @@ class Dashboard extends Component {
     }
     toggleSide(){
         this.setState({open:!this.state.open})
+    }
+    topHandle(index){
+        this.setState({index})
     }
     render() {
         const {profile,loading} = this.props.profile;
@@ -52,11 +58,19 @@ class Dashboard extends Component {
                 </View>
         }else{
             view=<Card>
-                <Text>Laoded</Text>
+                <Text>Loading</Text>
                 </Card>
         }
         return (
             <View>
+                <View style={{backgroundColor:"white",width:"100%",flexDirection:"row"}}>
+                < ButtonGroup
+                onPress={this.topHandle}
+                selectedIndex={this.state.index}
+                buttons={[<Icon name='home' size={24} color="gray" />,,<Icon name='bars' size={24} color="gray" />]}
+                containerStyle={{height:30,width:"100%"}}
+                />
+                </View>
                 {view}
             </View>
         )

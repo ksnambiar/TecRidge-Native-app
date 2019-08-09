@@ -20,6 +20,33 @@ auth.signInWithEmailAndPassword(email,password).then(authentication=>{
 })
 }
 
+export const checkSession = (Actions)=>dispatch=>{
+    getData('uid').then(uid=>{
+       if(uid){
+           let temp_details={}
+           temp_details.uid=uid;
+           dispatch({
+           type:SET_CURRENT_USER,
+           payload:temp_details
+           })
+           Actions.dashboard({uid:uid})
+       }else{
+           Actions.login()
+       }
+    })
+   }
+
+
+const getData = async(key)=>{
+    let data=null
+    try{
+        data= await AsyncStorage.getItem(key)
+    } catch(e){
+        console.log(e)
+    }
+    return data;
+}
+
 const storeKey = async(key,value)=>{
     try {
         await AsyncStorage.setItem(key, value)
