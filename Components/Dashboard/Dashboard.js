@@ -63,13 +63,13 @@ class Dashboard extends Component {
                 <ScrollView horizontal={true}>
                     <TouchableOpacity onPress={this.experienceToggle}>
                 <Card>
-                
                     <Text>Experience </Text>
                 {/* <Experience profile={profile} /> */}
                 </Card>
                 </TouchableOpacity>
                 <Overlay isVisible={this.state.experience}>
                     <Text>Expereince modal</Text>
+                    <Button title='close' onPress={this.experienceToggle} />
                 </Overlay>
                 <TouchableOpacity onPress={this.projectToggle}>
                 <Card>
@@ -79,6 +79,7 @@ class Dashboard extends Component {
                 </TouchableOpacity>
                 <Overlay isVisible={this.state.project}>
                     <Text>Project modal</Text>
+                    <Button title='close' onPress={this.projectToggle} />
                 </Overlay>
                 </ScrollView>
                 <ScrollView>
