@@ -68,8 +68,17 @@ class Dashboard extends Component {
                 </Card>
                 </TouchableOpacity>
                 <Overlay isVisible={this.state.experience}>
-                    <Text>Expereince modal</Text>
+                    <View>
+                    <Text>Experience</Text>
+                   </View>
+                   <View style={{flexDirection:"column-reverse",height:"100%"}}>
+                       <View style={{height:"15%"}}>
                     <Button title='close' onPress={this.experienceToggle} />
+                    </View>
+                    <View style={{height:"80%"}}>
+                    <Experience profile={profile} />
+                    </View>
+                    </View>
                 </Overlay>
                 <TouchableOpacity onPress={this.projectToggle}>
                 <Card>
@@ -78,7 +87,8 @@ class Dashboard extends Component {
                 </Card>
                 </TouchableOpacity>
                 <Overlay isVisible={this.state.project}>
-                    <Text>Project modal</Text>
+                    <Text>Projects</Text>            
+                        <Projects profile={profile} />
                     <Button title='close' onPress={this.projectToggle} />
                 </Overlay>
                 </ScrollView>
