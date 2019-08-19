@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import {View ,ScrollView} from 'react-native'
+import {View ,ScrollView,TouchableOpacity} from 'react-native'
 import {Card,Text,Button} from "react-native-elements"
 import Icon from "react-native-vector-icons/FontAwesome"
+import {Actions} from "react-native-router-flux"
 export default class Experience extends Component {
     constructor(props) {
         super(props)
@@ -10,6 +11,9 @@ export default class Experience extends Component {
              open:false
         }
         this.toggleOpen=this.toggleOpen.bind(this)
+    }
+    addExperience(){
+        Actions.addExperience()
     }
     toggleOpen(){
         this.setState({open:!this.state.open});
@@ -31,6 +35,13 @@ export default class Experience extends Component {
                     </View>
                     </Card>
             })
+            view.unshift(<TouchableOpacity onPress={this.addExperience}><Card key='add_new' containerStyle={{borderStyle:'solid',borderWidth:2}}>
+                <View style={{flexDirection:'row',justifyContent:"center",alignItems:"center"}}>
+                    <Icon name='plus' size={24} color='silver' />
+                <View>
+                </View>
+                </View>
+                </Card></TouchableOpacity>)
         }else{
             view=<View>
                 <Text>no experience creds</Text>
