@@ -87,9 +87,15 @@ class Dashboard extends Component {
                 </Card>
                 </TouchableOpacity>
                 <Overlay isVisible={this.state.project}>
-                    <Text>Projects</Text>            
-                        <Projects profile={profile} />
+                    <Text>Projects</Text>
+                    <View style={{flexDirection:"column-reverse",height:"100%"}}>
+                    <View style={{height:"15%"}}>
                     <Button title='close' onPress={this.projectToggle} />
+                    </View>
+                    <View style={{height:"80%"}}>
+                    <Projects profile={profile} />
+                    </View>
+                    </View>            
                 </Overlay>
                 </ScrollView>
                 <ScrollView>

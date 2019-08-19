@@ -22,14 +22,12 @@ export default class Projects extends Component {
             view=Object.keys(profile.projects).map((obj,i)=>{
                 let data = profile.projects[obj]
                 return <Card key={i}>
-                    <View>
+                    <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                         <Text h4 style={{color:"gray",margin:7}}>{data.name}</Text>
-                        <Card>
-                            <Text style={{color:"silver"}}>description</Text>
-                            <Text>{data.description}</Text>
-                        </Card>
-                        <View style={{marginVertical:5}}>
-                        <Button title="More info" type='solid'/>
+
+                        <View>
+                        <Button icon={<Icon name='info' size={20} color='#ffffff'/>}  type='solid' buttonStyle={{width:40,borderRadius:60}}/>
+
                     </View>
                     </View>
                     </Card>
@@ -44,11 +42,8 @@ export default class Projects extends Component {
                 let data = profile.wprojects[obj];
                 return <Card key={i}>
                     <View>
-                        <Card>
-                        <Text h4 style={{color:"gray",margin:7}}>{data.name}</Text>
-                        </Card>
                         <View style={{marginVertical:5}}>
-                        <Button title="More info" type='solid'/>
+                        <Button icon={<Icon name='info' size={20} color='#ffffff'/>}  type='solid' buttonStyle={{width:40,borderRadius:60}}/>
                     </View>
                     </View>
                     </Card>
@@ -59,19 +54,14 @@ export default class Projects extends Component {
                 </Card>
         }
         return (
-            <View style={{backgroundColor:"white",paddingVertical:8}}>
-                <Button title="Projects" onPress={this.toggleOpen} type="clear" iconRight={true}  icon={this.state.open?<View style={{marginLeft:100}}><Icon name='caret-down' color="black" size={24} /></View>:<View style={{marginLeft:100}}><Icon name='caret-right' color="black" size={24} /></View>} />
-                {this.state.open?<View>
-                    <Text>Your Projects</Text>
-                <ScrollView horizontal={true} >
+            <View style={{backgroundColor:"white",marginBottom:7}}>
+                <ScrollView contentContainerStyle={{maxHeight:400}}>
                 {view}
-                </ScrollView>
+                </ScrollView> 
                 <Text>Contributions</Text>
-                <ScrollView horizontal={true}>
+                <ScrollView contentContainerStyle={{maxHeight:400}}>
                 {view2}
-                </ScrollView>
-                </View>:null              
-                }
+                </ScrollView> 
             </View>
         )
     }
