@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
-import { Text, View ,ScrollView} from 'react-native'
+import { Text, View ,ScrollView,TouchableOpacity} from 'react-native'
 import {connect} from "react-redux"
 import PropTypes from "prop-types"
 import {getCurrentProfile} from "../../Store/actions/profileAction"
-import {Card,Avatar, Button,ButtonGroup} from "react-native-elements"
+import {Card,Avatar, Button,ButtonGroup,Overlay} from "react-native-elements"
 import { Actions } from 'react-native-router-flux';
-import MenuDrawer from 'react-native-side-drawer'
+import MenuDrawer from 'react-native-side-drawer';
 import Icon from "react-native-vector-icons/FontAwesome"
 import Menu from "../SideMenu/Menu"
 import Experience from "./Experience"
 import Projects from "./Projects"
-// import console = require('console');
 class Dashboard extends Component {
     constructor(props) {
         super(props)
@@ -18,12 +17,14 @@ class Dashboard extends Component {
         this.state = {
              profile:null,
              isLoading:false,
-             open:false,
-             index:0
+             index:0,
+             experience:false,
+             project:false
         }
-        this.profileViewer=this.profileViewer.bind(this)
-        this.toggleSide=this.toggleSide.bind(this)
+        // this.profileViewer=this.profileViewer.bind(this)
         this.topHandle=this.topHandle.bind(this)
+        this.projectToggle=this.projectToggle.bind(this)
+        this.experienceToggle=this.experienceToggle.bind(this)
     }
     componentDidMount(){
         this.setState({isLoading:true})
@@ -31,9 +32,17 @@ class Dashboard extends Component {
         const {uid} = this.props;
         this.props.getCurrentProfile(uid)        
     }
-    profileViewer(){
-    //send to profile page
-    Actions.profile({uid:this.props.uid});
+    // profileViewer(){
+    // +//send to profile page
+    // Actions.profile({uid:this.props.uid});
+    // }
+    projectToggle(){
+        const {project} = this.state;
+        this.setState({project:!project})
+    }
+    experienceToggle(){
+        const {experience} = this.state;
+        this.setState({experience:!experience})
     }
     toggleSide(){
         this.setState({open:!this.state.open})
@@ -43,6 +52,7 @@ class Dashboard extends Component {
     }
     render() {
         const {profile,loading} = this.props.profile;
+        const {index} =this.state;
         let view;
         let menu =null;
         console.log(profile,loading)
@@ -50,10 +60,28 @@ class Dashboard extends Component {
            menu=<Menu profile={profile}/>
             view=<View>
                 {/* <Button title="Open" onPress={this.toggleSide} /> */}
-                <Text>Dashboard</Text>
+                <ScrollView horizontal={true}>
+                    <TouchableOpacity onPress={this.experienceToggle}>
+                <Card>
+                
+                    <Text>Experience </Text>
+                {/* <Experience profile={profile} /> */}
+                </Card>
+                </TouchableOpacity>
+                <Overlay isVisible={this.state.experience}>
+                    <Text>Expereince modal</Text>
+                </Overlay>
+                <TouchableOpacity onPress={this.projectToggle}>
+                <Card>
+                    <Text>Projects</Text>
+                {/* <Projects profile={profile} /> */}
+                </Card>
+                </TouchableOpacity>
+                <Overlay isVisible={this.state.project}>
+                    <Text>Project modal</Text>
+                </Overlay>
+                </ScrollView>
                 <ScrollView>
-                <Experience profile={profile} />
-                <Projects profile={profile} />
                 </ScrollView>
                 </View>
         }else{
@@ -62,16 +90,27 @@ class Dashboard extends Component {
                 </Card>
         }
         return (
-            <View>
-                <View style={{backgroundColor:"white",width:"100%",flexDirection:"row"}}>
-                < ButtonGroup
+            <View style={{width:"100%",height:"100%"}}>
+                <View>
+                    <View>
+
+                    </View>
+                <View style={{flexDirection:"column-reverse",height:"100%",width:"100%"}}>
+                    <View style={{height:"10%"}}>
+                    < ButtonGroup
                 onPress={this.topHandle}
                 selectedIndex={this.state.index}
-                buttons={[<Icon name='home' size={24} color="gray" />,,<Icon name='bars' size={24} color="gray" />]}
-                containerStyle={{height:30,width:"100%"}}
-                />
+                buttons={[<Icon name='home' size={24} color="black" />,<Icon name='plus' size={24} color="black" />,<Icon name='user' size={24} color="black" />]}
+                containerStyle={{height:30,borderColor:"#ffffff"}}
+                selectedButtonStyle={{backgroundColor:"#99bbff"}}
+                /> 
+                    </View>
+                    <View style={{height:"90%"}}>
+                    {view}
+                    </View>
                 </View>
-                {view}
+                </View>
+                
             </View>
         )
     }

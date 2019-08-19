@@ -43,7 +43,7 @@ export default class Experience extends Component {
             <View style={{backgroundColor:"white",paddingVertical:8}}>
                 <Button title="Experience" onPress={this.toggleOpen} type="clear" iconRight={true}  icon={this.state.open?<View style={{marginLeft:100}}><Icon name='caret-down' color="black" size={24} /></View>:<View style={{marginLeft:100}}><Icon name='caret-right' color="black" size={24} /></View>} />
                 {this.state.open?
-                <ScrollView horizontal={true}>
+                <ScrollView>
                 {view}
                 </ScrollView>:null
                 }

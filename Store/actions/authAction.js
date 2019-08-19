@@ -29,7 +29,7 @@ export const checkSession = (Actions)=>dispatch=>{
            type:SET_CURRENT_USER,
            payload:temp_details
            })
-           Actions.dashboard({uid:uid})
+           Actions.postAuth({uid:uid})
        }else{
            Actions.login()
        }
