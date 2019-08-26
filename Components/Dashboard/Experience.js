@@ -11,8 +11,10 @@ export default class Experience extends Component {
              open:false
         }
         this.toggleOpen=this.toggleOpen.bind(this)
+        this.addExperience = this.addExperience.bind(this)
     }
     addExperience(){
+        this.props.experienceToggle()
         Actions.addExperience()
     }
     toggleOpen(){

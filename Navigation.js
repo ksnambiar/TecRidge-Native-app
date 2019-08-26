@@ -8,6 +8,7 @@ import Register from "./Components/Auth/Register";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Profile from "./Components/Profile/Profile"
 import Landing from "./Components/Auth/Landing"
+import AddExpereince from "./Components/AddCreds/AddExperience"
 const Navigation = () => {
     return (
         <Router sceneStyle={{backgroundColor:"#ffffff"}}>
@@ -20,6 +21,7 @@ const Navigation = () => {
             <Scene key='postAuth'>
                 <Scene key='dashboard' title="Dashboard" renderRightButton={<Icon name='bell' size={19} color='#ffffff' />} titleStyle={{color:"#ffffff"}} component={Dashboard} initial />
                 <Scene key='profile' title="Profile" component={Profile} />
+                <Scene key='addExperience' title="Add Experience" component={AddExpereince} />
             </Scene>
             </Stack>
         </Router>

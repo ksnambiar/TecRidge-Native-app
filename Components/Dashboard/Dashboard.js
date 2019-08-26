@@ -3,7 +3,7 @@ import { Text, View ,ScrollView,TouchableOpacity} from 'react-native'
 import {connect} from "react-redux"
 import PropTypes from "prop-types"
 import {getCurrentProfile} from "../../Store/actions/profileAction"
-import {Card,Avatar, Button,ButtonGroup,Overlay} from "react-native-elements"
+import {Card,Avatar, Button,ButtonGroup,Overlay, Badge} from "react-native-elements"
 import { Actions } from 'react-native-router-flux';
 import MenuDrawer from 'react-native-side-drawer';
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -63,8 +63,11 @@ class Dashboard extends Component {
                 <ScrollView horizontal={true}>
                     <TouchableOpacity onPress={this.experienceToggle}>
                 <Card>
+                    <View style={{flexDirection:'row',justifyContent:"space-between"}}>
                     <Text>Experience </Text>
+                    <Badge value={Object.keys(profile.experience).length} status="primary" />
                 {/* <Experience profile={profile} /> */}
+                    </View>
                 </Card>
                 </TouchableOpacity>
                 <Overlay isVisible={this.state.experience}>
@@ -76,14 +79,17 @@ class Dashboard extends Component {
                     <Button title='close' onPress={this.experienceToggle} />
                     </View>
                     <View style={{height:"80%"}}>
-                    <Experience profile={profile} />
+                    <Experience profile={profile} experienceToggle={this.experienceToggle}/>
                     </View>
                     </View>
                 </Overlay>
                 <TouchableOpacity onPress={this.projectToggle}>
                 <Card>
+                    <View style={{flexDirection:"row",justifyContent:"space-between"}}>
                     <Text>Projects</Text>
+                    <Badge value={Object.keys(profile.projects).length} status="primary" />
                 {/* <Projects profile={profile} /> */}
+                    </View>
                 </Card>
                 </TouchableOpacity>
                 <Overlay isVisible={this.state.project}>
@@ -107,16 +113,16 @@ class Dashboard extends Component {
 
                     </View>
                 <View style={{flexDirection:"column-reverse",height:"100%",width:"100%"}}>
-                    <View style={{height:"10%"}}>
+                    <View style={{height:"7%"}}>
                     < ButtonGroup
                 onPress={this.topHandle}
                 selectedIndex={this.state.index}
-                buttons={[<Icon name='home' size={24} color="black" />,<Icon name='plus' size={24} color="black" />,<Icon name='user' size={24} color="black" />]}
+                buttons={[<Icon name='home' size={24} color="black" />,<Icon name='search' size={24} color="black" />,<Icon name='user' size={24} color="black" />]}
                 containerStyle={{height:30,borderColor:"#ffffff"}}
                 selectedButtonStyle={{backgroundColor:"#99bbff"}}
                 /> 
                     </View>
-                    <View style={{height:"90%"}}>
+                    <View style={{height:"93%"}}>
                     {view}
                     </View>
                 </View>
